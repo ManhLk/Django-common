@@ -1,3 +1,44 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.db.models.base import Model
 
 # Create your models here.
+class User(AbstractUser):
+    avatar = models.ImageField(upload_to = "uploads/%Y/%m")
+
+class Category(models.Model):
+    name = models.CharField(max_length=250, null= False)
+
+    def __str__(self):
+        return self.name
+
+class ItemBase(models.Model):
+    subject = models.CharField(max_length=250, null=True, blank=True)
+    image = models.ImageField(upload_to="upload_to/%Y/%m", default=None)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
+
+class Course(ItemBase):
+    description = models.TextField(null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.subject
+    
+    class Meta:
+        unique_together = ('subject', 'category')
+    
+
+class Lesson(ItemBase):
+    content = models.TextField(null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.subject
+
+    class Meta:
+        unique_together = ('subject', 'course')
