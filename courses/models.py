@@ -21,6 +21,7 @@ class ItemBase(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['created_date']
 
 class Course(ItemBase):
     description = models.TextField(null=True, blank=True)
@@ -35,10 +36,14 @@ class Course(ItemBase):
 
 class Lesson(ItemBase):
     content = models.TextField(null=True, blank=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='lessons', on_delete=models.CASCADE)
+    tags = models.ManyToManyField('Tag', blank=True, null=True, related_name='lessons')
 
     def __str__(self):
         return self.subject
 
     class Meta:
         unique_together = ('subject', 'course')
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
