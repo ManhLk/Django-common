@@ -16,11 +16,12 @@ Including another URLconf
 from courses.views import index
 import courses
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from ecourses import views
 
 urlpatterns = [
-    #path('', include('courses.urls')),
+    path('', include('courses.urls')),
     path('test/', views.index),
     path('admin/', admin.site.urls),
+    re_path(r'^ckeditor/', include('ckeditor_uploader.urls'))
 ]

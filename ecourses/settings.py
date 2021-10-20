@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'courses.apps.CoursesConfig',
+    'ckeditor', 
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
@@ -76,13 +78,22 @@ WSGI_APPLICATION = 'ecourses.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'ecoursesdb',
-        'USER': 'sa',
-        'PASSWORD': '12345',
-        'HOST': ''
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecoursedb',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',
+#         'NAME': 'ecoursesdb',
+#         'USER': 'sa',
+#         'PASSWORD': '12345',
+#         'HOST': ''
+#     }
+    
+# }
 
 
 # Password validation
@@ -122,6 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = f"{BASE_DIR}/courses/static/image/"
+CKEDITOR_UPLOAD_PATH = "ckeditor"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
